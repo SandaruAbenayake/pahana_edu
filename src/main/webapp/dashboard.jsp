@@ -2,7 +2,7 @@
 <%@ page session="true" %>
 <%
   User user = (User) session.getAttribute("user");
-  if (user == null) {
+  if (user == null || !"admin".equalsIgnoreCase(user.getRole())) {
     response.sendRedirect("login.jsp");
     return;
   }
@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pahana Edu - Dashboard</title>
+  <title>Pahana Edu - Admin Dashboard</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,9 +21,9 @@
     }
 
     .dashboard-container {
-      max-width: 500px;
-      margin: 80px auto;
-      padding: 30px;
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 40px;
       background-color: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
@@ -42,19 +42,19 @@
     }
 
     .menu h3 {
-      color: #005cbf;
-      margin-bottom: 20px;
+      color: black;
+      margin: 30px 0 10px;
     }
 
     .menu a {
-      display: block;
+      display: inline-block;
       padding: 12px 20px;
-      margin: 10px 0;
+      margin: 8px;
       background-color: #005cbf;
       color: white;
       text-decoration: none;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -67,17 +67,36 @@
 <body>
 
 <div class="dashboard-container">
-  <h2>Welcome, <%= user.getUsername() %>!</h2>
+  <h2>Welcome Admin, <%= user.getUsername() %>!</h2>
   <p>Role: <%= user.getRole() %></p>
 
   <div class="menu">
-    <h3>Navigation</h3>
-    <a href="addCustomer.jsp">➕ Add Customer</a>
-    <a href="viewCustomers.jsp">📄 View All Customers</a>
-    <a href="calculateBill.jsp">💰 Calculate Bill</a>
-    <a href="manageItems.jsp">📚 Manage Items</a>
-    <a href="help.jsp">❓ Help</a>
-    <a href="logout.jsp">🚪 Logout</a>
+    <h3>Customer Management</h3>
+    <a href="addCustomer.jsp"> Add Customer</a>
+    <a href="viewCustomers.jsp"> View All Customers</a>
+    <a href="removeCustomer.jsp"> Remove Customer</a>
+    <a href="updateCustomer.jsp">Upgrade Customer</a>
+
+    <h3> Item Management</h3>
+    <a href="addItem.jsp"> Add Item</a>
+    <a href="removeItem.jsp"> Remove Item</a>
+    <a href="updateItem.jsp"> Upgrade Item</a>
+    <a href="viewItems.jsp"> View All Items</a>
+
+    <h3> Billing & Purchase</h3>
+    <a href="calculateBill.jsp"> Calculate Bill</a>
+    <a href="printBill.jsp"> Print Bill</a>
+    <a href="viewPurchases.jsp">View All Purchase Detail</a>
+
+    <h3>Cashier Management</h3>
+    <a href="createCashier.jsp"> Create Cashier</a>
+    <a href="editCashier.jsp">Edit Cashier</a>
+    <a href="removeCashier.jsp"> Remove Cashier</a>
+    <a href="viewCashiers.jsp"> View All Cashiers</a>
+
+    <h3>Others</h3>
+    <a href="help.jsp"> Help</a>
+    <a href="logout.jsp"> Logout</a>
   </div>
 </div>
 
