@@ -88,11 +88,11 @@
     <a href="printBill.jsp"> Print Bill</a>
     <a href="viewPurchases.jsp">View All Purchase Detail</a>
 
-    <h3>Cashier Management</h3>
-    <a href="createCashier.jsp"> Create Cashier</a>
-    <a href="editCashier.jsp">Edit Cashier</a>
-    <a href="removeCashier.jsp"> Remove Cashier</a>
-    <a href="viewCashiers.jsp"> View All Cashiers</a>
+    <h3>User Management</h3>
+    <a href="createUser.jsp">Create User</a>
+    <a href="editUser.jsp">Edit User</a>
+    <a href="removeUser.jsp">Remove User</a>
+    <a href="viewUsers.jsp">View All Users</a>
 
     <h3>Others</h3>
     <a href="help.jsp"> Help</a>
