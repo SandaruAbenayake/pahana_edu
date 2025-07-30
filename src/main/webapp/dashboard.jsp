@@ -72,16 +72,12 @@
 
   <div class="menu">
     <h3>Customer Management</h3>
-    <a href="addCustomer.jsp"> Add Customer</a>
-    <a href="viewCustomers.jsp"> View All Customers</a>
-    <a href="removeCustomer.jsp"> Remove Customer</a>
-    <a href="updateCustomer.jsp">Upgrade Customer</a>
+    <a href="customerPage.jsp">Customer Managment</a>
+
 
     <h3> Item Management</h3>
-    <a href="addItem.jsp"> Add Item</a>
-    <a href="removeItem.jsp"> Remove Item</a>
-    <a href="updateItem.jsp"> Upgrade Item</a>
-    <a href="viewItems.jsp"> View All Items</a>
+    <a href="itemPage.jsp">Item Managment</a>
+
 
     <h3> Billing & Purchase</h3>
     <a href="calculateBill.jsp"> Calculate Bill</a>
@@ -89,10 +85,8 @@
     <a href="viewPurchases.jsp">View All Purchase Detail</a>
 
     <h3>User Management</h3>
-    <a href="createUser.jsp">Create User</a>
-    <a href="editUser.jsp">Edit User</a>
-    <a href="removeUser.jsp">Remove User</a>
-    <a href="viewUsers.jsp">View All Users</a>
+    <a href="userPage.jsp">User Managment</a>
+
 
     <h3>Others</h3>
     <a href="help.jsp"> Help</a>
