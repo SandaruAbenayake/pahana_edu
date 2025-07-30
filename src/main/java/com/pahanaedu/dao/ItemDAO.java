@@ -186,4 +186,47 @@ public class ItemDAO {
             return false;
         }
     }
+
+    // Search items by name
+    public static List<Item> searchItemsByName(String searchTerm) {
+        List<Item> items = new ArrayList<>();
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?) ORDER BY product_id";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Item item = new Item(
+                    rs.getInt("product_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getString("brand"),
+                    rs.getString("size"),
+                    rs.getInt("pages"),
+                    rs.getString("color"),
+                    rs.getString("material"),
+                    rs.getString("unit_type"),
+                    rs.getString("barcode"),
+                    rs.getString("sku"),
+                    rs.getInt("quantity_in_stock"),
+                    rs.getInt("reorder_level"),
+                    rs.getBigDecimal("cost_price"),
+                    rs.getBigDecimal("selling_price"),
+                    rs.getBigDecimal("discount_percent"),
+                    rs.getTimestamp("added_date") != null ? rs.getTimestamp("added_date").toLocalDateTime() : null,
+                    rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime() : null,
+                    rs.getString("status")
+                );
+                items.add(item);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("Failed to search items: " + e.getMessage());
+        }
+        return items;
+    }
 } 

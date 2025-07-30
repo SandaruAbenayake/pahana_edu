@@ -3,8 +3,12 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    // Fetch all items for the table
-    List<Item> itemList = ItemDAO.getAllItems();
+    // Get items - either search results or all items
+    List<Item> itemList = (List<Item>) request.getAttribute("searchResults");
+    if (itemList == null) {
+        itemList = ItemDAO.getAllItems();
+    }
+    String searchTerm = (String) request.getAttribute("searchTerm");
 %>
 <!DOCTYPE html>
 <html>
@@ -54,6 +58,121 @@
         .form-section {
             padding: 20px;
             border-bottom: 1px solid #e0e0e0;
+        }
+        .search-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .search-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+        .search-content {
+            position: relative;
+            z-index: 1;
+        }
+        .search-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .search-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .search-form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .search-input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+        }
+        .search-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        .search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .search-btn:hover::before {
+            left: 100%;
+        }
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .clear-btn:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .search-results-info {
+            margin-top: 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .search-results-info strong {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 20px;
+            margin: 0 5px;
         }
         .table-section {
             padding: 20px;
@@ -165,6 +284,26 @@
         .compact-table th {
             padding: 8px;
             font-size: 11px;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            .search-input {
+                border-radius: 20px 20px 0 0;
+            }
+            .search-btn {
+                border-radius: 0 0 20px 20px;
+            }
+            .clear-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -298,6 +437,30 @@
             </form>
         </div>
 
+        <div class="search-section">
+            <div class="search-content">
+                <div class="search-title">🔍 Search Items</div>
+                <div class="search-subtitle">Find items quickly by name, category, or brand</div>
+                
+                <form action="searchItem" method="post" id="searchForm" class="search-form">
+                    <input type="text" name="searchTerm" id="searchInput" class="search-input" 
+                           placeholder="Type to search items..." 
+                           value="<%= searchTerm != null ? searchTerm : "" %>" />
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+                
+                <% if (searchTerm != null && !searchTerm.isEmpty()) { %>
+                    <button type="button" class="clear-btn" onclick="clearSearch()">Clear Search</button>
+                <% } %>
+                
+                <% if (searchTerm != null && !searchTerm.isEmpty()) { %>
+                    <div class="search-results-info">
+                        Found <strong><%= itemList.size() %></strong> item(s) for <strong><%= searchTerm %></strong>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
         <div class="table-section">
             <h2>Item List - Full Details</h2>
             <table class="compact-table">
@@ -341,10 +504,16 @@
                         String escBarcode = item.getBarcode() == null ? "" : item.getBarcode().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
                         String escSku = item.getSku() == null ? "" : item.getSku().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
                         String escStatus = item.getStatus() == null ? "" : item.getStatus().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
+                        
+                        // Highlight search term in name if searching
+                        String displayName = escName;
+                        if (searchTerm != null && !searchTerm.isEmpty() && escName.toLowerCase().contains(searchTerm.toLowerCase())) {
+                            displayName = escName.replaceAll("(?i)(" + searchTerm + ")", "<span class='highlight'>$1</span>");
+                        }
                 %>
                     <tr>
                         <td><%= item.getProductId() %></td>
-                        <td><%= escName %></td>
+                        <td><%= displayName %></td>
                         <td><%= escDescription %></td>
                         <td><%= escCategory %></td>
                         <td><%= escBrand %></td>
@@ -476,6 +645,18 @@
             window.location.href = 'deleteItem?productId=' + productId;
         }
     };
+
+    window.clearSearch = function() {
+        window.location.href = 'itemPage.jsp';
+    };
+
+    // Auto-submit search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('searchForm').submit();
+        }
+    });
 </script>
 </body>
 </html> 
