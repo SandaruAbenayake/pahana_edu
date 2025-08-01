@@ -80,8 +80,8 @@
 
 
     <h3> Billing & Purchase</h3>
-    <a href="calculateBill.jsp"> Calculate Bill</a>
-    <a href="printBill.jsp"> Print Bill</a>
+    <a href="billingPanel.jsp"> Calculate Bill</a>
+
     <a href="viewPurchases.jsp">View All Purchase Detail</a>
 
     <h3>User Management</h3>

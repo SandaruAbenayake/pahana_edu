@@ -177,4 +177,37 @@ public class CustomerDAO {
         }
         return customers;
     }
+
+    // Search customers by NIC
+    public static List<Customer> searchCustomersByNIC(String searchTerm) {
+        List<Customer> customers = new ArrayList<>();
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM customers WHERE LOWER(nic) LIKE LOWER(?) ORDER BY customer_id";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Customer customer = new Customer(
+                    rs.getInt("customer_id"),
+                    rs.getString("full_name"),
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("nic"),
+                    rs.getString("address"),
+                    rs.getString("gender"),
+                    rs.getDate("dob") != null ? rs.getDate("dob").toLocalDate() : null,
+                    rs.getTimestamp("registered_date") != null ? rs.getTimestamp("registered_date").toLocalDateTime() : null,
+                    rs.getString("status")
+                );
+                customers.add(customer);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("Failed to search customers by NIC: " + e.getMessage());
+        }
+        return customers;
+    }
 } 

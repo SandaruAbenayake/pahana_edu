@@ -3,16 +3,46 @@
 <html>
 <head>
     <title>Login - Pahana Edu</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h2>Login to Pahana Edu System</h2>
-<form action="login" method="post">
-    <label>Username:</label>
-    <input type="text" name="username" required /><br><br>
-    <label>Password:</label>
-    <input type="password" name="password" required /><br><br>
-    <input type="submit" value="Login" />
-</form>
-<p style="color:red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %></p>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Login to Pahana Edu</h3>
+
+                    <form action="login" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Username:</label>
+                            <input type="text" name="username" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password:</label>
+                            <input type="password" name="password" class="form-control" required />
+                        </div>
+                        <div class="d-grid">
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+
+                    <% String error = (String) request.getAttribute("error"); %>
+                    <% if (error != null) { %>
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional for interactivity) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
