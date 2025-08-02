@@ -5,6 +5,13 @@
     <title>Login - Pahana Edu</title>
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .logo {
+            display: block;
+            max-width: 120px;
+            margin: 0 auto 20px;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
@@ -13,6 +20,8 @@
         <div class="col-md-5">
             <div class="card shadow">
                 <div class="card-body">
+
+
                     <h3 class="card-title text-center mb-4">Login to Pahana Edu</h3>
 
                     <form action="login" method="post">
@@ -40,6 +49,10 @@
             </div>
         </div>
     </div>
+    <marquee behavior="scroll" direction="left" class="mt-4 text-primary fs-5 fw-semibold">
+        Welcome to Pahana EDU!
+    </marquee>
+
 </div>
 
 <!-- Bootstrap JS (optional for interactivity) -->

@@ -1,7 +1,6 @@
 <%@ page import="com.pahanaedu.model.User" %>
 <%@ page session="true" %>
 <%
-    // Session validation and role check
     User user = (User) session.getAttribute("user");
     if (user == null || !"user".equalsIgnoreCase(user.getRole())) {
         response.sendRedirect("login.jsp");
@@ -13,48 +12,69 @@
 <html>
 <head>
     <title>Pahana Edu - Cashier Dashboard</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f3;
+            background: linear-gradient(-45deg, #74ebd5, #ACB6E5, #dfe9f3, #eecda3);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             margin: 0;
             padding: 0;
         }
 
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .dashboard-container {
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+            max-width: 850px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: #ffffffdd;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
             text-align: center;
         }
 
         h2 {
-            color: #333333;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
         }
 
         .menu h3 {
             color: #005cbf;
-            margin: 30px 0 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
 
-        .menu a {
+        .btn-custom {
             display: inline-block;
-            padding: 12px 20px;
+            padding: 12px 24px;
             margin: 10px;
             background-color: #007bff;
-            color: white;
+            color: #fff !important;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
         }
 
-        .menu a:hover {
+        .btn-custom:hover {
             background-color: #0056b3;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 86, 179, 0.3);
         }
     </style>
 </head>
@@ -67,28 +87,20 @@
     <div class="menu">
         <!-- Customer Section -->
         <h3>Customer Section</h3>
-        <a href="addCustomer.jsp">➕ Add Customer</a>
-        <a href="viewCustomers.jsp"> View All Customers</a>
-        <a href="removeCustomer.jsp">Remove Customer</a>
-        <a href="updateCustomer.jsp">Upgrade Customer</a>
+        <a href="customerPage.jsp" class="btn-custom">Customer Management</a>
 
         <!-- Item Section -->
         <h3>Item Section</h3>
-        <a href="addItem.jsp">➕ Add Item</a>
-        <a href="removeItem.jsp"> Remove Item</a>
-        <a href="updateItem.jsp">Upgrade Item</a>
-        <a href="viewItems.jsp">View All Items</a>
+        <a href="itemPage.jsp" class="btn-custom">Item Management</a>
 
         <!-- Report Section -->
         <h3>Report Section</h3>
-        <a href="calculateBill.jsp">Calculate Bill</a>
-        <a href="printBill.jsp"> Print Bill</a>
-        <a href="viewPurchases.jsp">View All Purchase Details</a>
+        <a href="billingPanel.jsp" class="btn-custom">Calculate Bill</a>
 
         <!-- Others -->
         <h3>Others</h3>
-        <a href="help.jsp">Help</a>
-        <a href="logout.jsp">Logout</a>
+        <a href="help.jsp" class="btn-custom">Help</a>
+        <a href="login.jsp" class="btn-custom">Logout</a>
     </div>
 </div>
 

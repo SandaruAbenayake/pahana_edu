@@ -12,21 +12,31 @@
 <html>
 <head>
   <title>Pahana Edu - Admin Dashboard</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f8;
+      background: linear-gradient(-45deg, #f3ec78, #af4261, #1e90ff, #00c9a7);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       margin: 0;
       padding: 0;
     }
 
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .dashboard-container {
-      max-width: 700px;
-      margin: 50px auto;
+      max-width: 800px;
+      margin: 60px auto;
       padding: 40px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
+      background-color: #ffffffdd;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
       text-align: center;
     }
 
@@ -36,32 +46,41 @@
     }
 
     p {
-      color: #777;
+      color: #555;
       font-size: 16px;
       margin-bottom: 30px;
     }
 
     .menu h3 {
-      color: black;
-      margin: 30px 0 10px;
+      color: #222;
+      margin-top: 30px;
+      margin-bottom: 15px;
     }
 
-    .menu a {
+    .menu a.btn {
       display: inline-block;
-      padding: 12px 20px;
       margin: 8px;
-      background-color: #005cbf;
+      padding: 12px 20px;
+      background: #005cbf;
       color: white;
       text-decoration: none;
+      border: none;
       border-radius: 8px;
       font-size: 15px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
     }
 
-    .menu a:hover {
-      background-color: #004799;
-      transform: translateY(-2px);
+
+
+    .menu a.btn:hover {
+      color: lightblue;
+      background: transparent;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
+
+
   </style>
 </head>
 <body>
@@ -72,25 +91,21 @@
 
   <div class="menu">
     <h3>Customer Management</h3>
-    <a href="customerPage.jsp">Customer Managment</a>
+    <a href="customerPage.jsp" class="btn"><span>Customer Management</span></a>
 
+    <h3>Item Management</h3>
+    <a href="itemPage.jsp" class="btn"><span>Item Management</span></a>
 
-    <h3> Item Management</h3>
-    <a href="itemPage.jsp">Item Managment</a>
-
-
-    <h3> Billing & Purchase</h3>
-    <a href="billingPanel.jsp"> Calculate Bill</a>
-
-    <a href="viewPurchases.jsp">View All Purchase Detail</a>
+    <h3>Billing & Purchase</h3>
+    <a href="billingPanel.jsp" class="btn"><span>Calculate Bill</span></a>
+    <a href="viewPurchases.jsp" class="btn"><span>View All Purchase Details</span></a>
 
     <h3>User Management</h3>
-    <a href="userPage.jsp">User Managment</a>
-
+    <a href="userPage.jsp" class="btn"><span>User Management</span></a>
 
     <h3>Others</h3>
-    <a href="help.jsp"> Help</a>
-    <a href="logout.jsp"> Logout</a>
+    <a href="help.jsp" class="btn"><span>Help</span></a>
+    <a href="login.jsp" class="btn"><span>Logout</span></a>
   </div>
 </div>
 

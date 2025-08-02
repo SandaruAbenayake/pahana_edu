@@ -41,8 +41,19 @@
     <div class="card mb-4 p-3">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Cashier Billing Panel</h2>
-            <a href="userDashboard.jsp" class="btn btn-secondary">Back</a>
+            <%
+                String role = (String) session.getAttribute("role");
+                String homePage = "login.jsp"; // default fallback
+
+                if ("admin".equalsIgnoreCase(role)) {
+                    homePage = "dashboard.jsp";
+                } else if ("user".equalsIgnoreCase(role)) {
+                    homePage = "userDashboard.jsp";
+                }
+            %>
+            <a href="<%= homePage %>" class="btn btn-secondary">Back</a>
         </div>
+
     </div>
 
     <!-- Customer Section -->

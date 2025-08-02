@@ -310,7 +310,17 @@
 <body>
     <div class="header">
         <h1>Item Management System</h1>
-        <a href="userDashboard.jsp" class="back-btn">Back to Home</a>
+        <%
+            String role = (String) session.getAttribute("role");
+            String homePage = "login.jsp"; // fallback
+
+            if ("admin".equalsIgnoreCase(role)) {
+                homePage = "dashboard.jsp";
+            } else if ("user".equalsIgnoreCase(role)) {
+                homePage = "userDashboard.jsp";
+            }
+        %>
+        <a href="<%= homePage %>" class="back-btn">← Back to Home</a>
     </div>
 
     <div class="container">
