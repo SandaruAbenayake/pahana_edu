@@ -588,8 +588,9 @@
         })
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    alert('Bill saved to database!');
+                if (data.success && data.billId) {
+                    // Show simple bill for print
+                    showSimplePrintBill();
                     closePurchaseSummaryModal();
                     resetBill();
                 } else {
@@ -599,6 +600,46 @@
             .catch(err => {
                 alert('Error saving bill: ' + err);
             });
+    }
+
+    function showSimplePrintBill() {
+        // Collect bill data for print
+        const customerName = document.getElementById('customerName').textContent;
+        const now = new Date();
+        const dateStr = now.toLocaleDateString();
+        const timeStr = now.toLocaleTimeString();
+        const billItems = billItemsList;
+        const subtotal = billItems.reduce((sum, item) => sum + item.total, 0);
+        const givenAmount = document.getElementById('amountGiven').value || 0;
+        const balance = (parseFloat(givenAmount) - subtotal).toFixed(2);
+
+        // Create print window
+        let printWindow = window.open('', '', 'width=900,height=600');
+        printWindow.document.write('<html><head><title>Print Bill</title>');
+        printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;} th,td{border:1px solid #ccc;padding:8px;text-align:left;} th{background:#f0f0f0;} .totals{margin-top:20px;} .totals p{margin:4px 0;}</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<h2>Bookshop Bill</h2>');
+        printWindow.document.write('<p><strong>Customer:</strong> ' + customerName + '</p>');
+        printWindow.document.write('<p><strong>Date:</strong> ' + dateStr + ' <strong>Time:</strong> ' + timeStr + '</p>');
+        printWindow.document.write('<table><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody>');
+        billItems.forEach(item => {
+            printWindow.document.write('<tr>' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.quantity + '</td>' +
+                '<td>' + item.price.toFixed(2) + '</td>' +
+                '<td>' + item.total.toFixed(2) + '</td>' +
+                '</tr>');
+        });
+        printWindow.document.write('</tbody></table>');
+        printWindow.document.write('<div class="totals">');
+        printWindow.document.write('<p><strong>Subtotal:</strong> ' + subtotal.toFixed(2) + '</p>');
+        printWindow.document.write('<p><strong>Given Amount:</strong> ' + parseFloat(givenAmount).toFixed(2) + '</p>');
+        printWindow.document.write('<p><strong>Balance:</strong> ' + balance + '</p>');
+        printWindow.document.write('</div>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
     }
 
 
