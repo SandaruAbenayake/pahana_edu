@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -60,7 +61,7 @@ public class CreateCustomerServlet extends HttpServlet {
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Error creating customer: " + e.getMessage());
         }
-        
+
         response.sendRedirect("customerPage.jsp");
     }
 } 

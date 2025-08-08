@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         User user = UserDAO.validateLogin(username, password);
 
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8"); 
+        response.setCharacterEncoding("UTF-8");
 
         if (user != null) {
             HttpSession session = request.getSession();
@@ -35,14 +35,14 @@ public class LoginServlet extends HttpServlet {
 
             // Set absolute paths for redirection
             String redirectUrl = "admin".equalsIgnoreCase(user.getRole()) ?
-                "dashboard.jsp" : "userDashboard.jsp";
+                    "dashboard.jsp" : "userDashboard.jsp";
 
             String jsonResponse = String.format(
-                "{\"success\":true,\"user\":{\"id\":%d,\"username\":\"%s\",\"role\":\"%s\"},\"redirect\":\"%s\"}",
-                user.getId(),
-                escapeJson(user.getUsername()),
-                escapeJson(user.getRole()),
-                escapeJson(redirectUrl)
+                    "{\"success\":true,\"user\":{\"id\":%d,\"username\":\"%s\",\"role\":\"%s\"},\"redirect\":\"%s\"}",
+                    user.getId(),
+                    escapeJson(user.getUsername()),
+                    escapeJson(user.getRole()),
+                    escapeJson(redirectUrl)
             );
 
             response.getWriter().write(jsonResponse);
@@ -55,9 +55,9 @@ public class LoginServlet extends HttpServlet {
     private String escapeJson(String input) {
         if (input == null) return "";
         return input.replace("\\", "\\\\")
-                   .replace("\"", "\\\"")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t");
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }

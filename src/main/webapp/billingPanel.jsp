@@ -639,7 +639,10 @@
         printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.focus();
-        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
     }
 
 

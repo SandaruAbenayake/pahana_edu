@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -71,7 +72,7 @@ public class CreateItemServlet extends HttpServlet {
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Error creating item: " + e.getMessage());
         }
-        
+
         response.sendRedirect("itemPage.jsp");
     }
 } 

@@ -19,7 +19,7 @@ public class BillDAO {
         try {
             Connection conn = DBConnection.getInstance().getConnection();
             conn.setAutoCommit(false);
-            
+
             // Insert bill
             String sql = "INSERT INTO bills (customer_id, total_amount, discount_amount, final_amount, amount_paid, balance_returned, payment_method, notes, status, bill_date, created_by) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -44,7 +44,7 @@ public class BillDAO {
                 ResultSet rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
                     billId = rs.getInt(1);
-                    
+
                     // Insert bill items
                     if (bill.getBillItems() != null && !bill.getBillItems().isEmpty()) {
                         for (BillItem item : bill.getBillItems()) {
@@ -68,9 +68,9 @@ public class BillDAO {
     public static boolean createBillItem(BillItem item, Connection conn) {
         try {
             String sql = "INSERT INTO bill_items (bill_id, product_id, product_name, product_code, quantity, unit_price, total_price, discount_percent, discount_amount, final_price) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            
+
             stmt.setInt(1, item.getBillId());
             stmt.setInt(2, item.getProductId());
             stmt.setString(3, item.getProductName());
@@ -81,7 +81,7 @@ public class BillDAO {
             stmt.setBigDecimal(8, item.getDiscountPercent() != null ? item.getDiscountPercent() : BigDecimal.ZERO);
             stmt.setBigDecimal(9, item.getDiscountAmount() != null ? item.getDiscountAmount() : BigDecimal.ZERO);
             stmt.setBigDecimal(10, item.getFinalPrice());
-            
+
             int rows = stmt.executeUpdate();
             stmt.close();
             return rows > 0;
@@ -100,7 +100,7 @@ public class BillDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, billId);
             ResultSet rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 bill = new Bill();
                 bill.setBillId(rs.getInt("bill_id"));
@@ -118,7 +118,6 @@ public class BillDAO {
                 bill.setCreatedBy(rs.getInt("created_by"));
 
 
-                
                 // Get bill items
                 bill.setBillItems(getBillItemsByBillId(billId));
             }
@@ -139,20 +138,20 @@ public class BillDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, billId);
             ResultSet rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 BillItem item = new BillItem(
-                    rs.getInt("bill_item_id"),
-                    rs.getInt("bill_id"),
-                    rs.getInt("product_id"),
-                    rs.getString("product_name"),
-                    rs.getString("product_code"),
-                    rs.getInt("quantity"),
-                    rs.getBigDecimal("unit_price"),
-                    rs.getBigDecimal("total_price"),
-                    rs.getBigDecimal("discount_percent"),
-                    rs.getBigDecimal("discount_amount"),
-                    rs.getBigDecimal("final_price")
+                        rs.getInt("bill_item_id"),
+                        rs.getInt("bill_id"),
+                        rs.getInt("product_id"),
+                        rs.getString("product_name"),
+                        rs.getString("product_code"),
+                        rs.getInt("quantity"),
+                        rs.getBigDecimal("unit_price"),
+                        rs.getBigDecimal("total_price"),
+                        rs.getBigDecimal("discount_percent"),
+                        rs.getBigDecimal("discount_amount"),
+                        rs.getBigDecimal("final_price")
                 );
                 items.add(item);
             }
@@ -172,7 +171,7 @@ public class BillDAO {
             String sql = "SELECT * FROM bills ORDER BY bill_date DESC";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 Bill bill = new Bill();
                 bill.setBillId(rs.getInt("bill_id"));
@@ -223,21 +222,21 @@ public class BillDAO {
         try {
             Connection conn = DBConnection.getInstance().getConnection();
             conn.setAutoCommit(false);
-            
+
             // Delete bill items first
             String deleteItemsSql = "DELETE FROM bill_items WHERE bill_id = ?";
             PreparedStatement stmt = conn.prepareStatement(deleteItemsSql);
             stmt.setInt(1, billId);
             stmt.executeUpdate();
             stmt.close();
-            
+
             // Delete bill
             String deleteBillSql = "DELETE FROM bills WHERE bill_id = ?";
             stmt = conn.prepareStatement(deleteBillSql);
             stmt.setInt(1, billId);
             int rows = stmt.executeUpdate();
             stmt.close();
-            
+
             conn.commit();
             conn.setAutoCommit(true);
             return rows > 0;

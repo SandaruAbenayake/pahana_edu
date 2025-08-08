@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -62,7 +63,7 @@ public class UpdateCustomerServlet extends HttpServlet {
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Error updating customer: " + e.getMessage());
         }
-        
+
         response.sendRedirect("customerPage.jsp");
     }
 } 

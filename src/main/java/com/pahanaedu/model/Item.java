@@ -26,13 +26,14 @@ public class Item {
     private String status;
 
     // Default constructor
-    public Item() {}
+    public Item() {
+    }
 
     // Constructor with all fields
-    public Item(int productId, String name, String description, String category, String brand, 
-                String size, int pages, String color, String material, String unitType, 
-                String barcode, String sku, int quantityInStock, int reorderLevel, 
-                BigDecimal costPrice, BigDecimal sellingPrice, BigDecimal discountPercent, 
+    public Item(int productId, String name, String description, String category, String brand,
+                String size, int pages, String color, String material, String unitType,
+                String barcode, String sku, int quantityInStock, int reorderLevel,
+                BigDecimal costPrice, BigDecimal sellingPrice, BigDecimal discountPercent,
                 LocalDateTime addedDate, LocalDateTime updatedAt, String status) {
         this.productId = productId;
         this.name = name;
@@ -57,63 +58,163 @@ public class Item {
     }
 
     // Getters and Setters
-    public int getProductId() { return productId; }
-    public void setProductId(int productId) { this.productId = productId; }
+    public int getProductId() {
+        return productId;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getName() {
+        return name;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getBrand() { return brand; }
-    public void setBrand(String brand) { this.brand = brand; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getSize() { return size; }
-    public void setSize(String size) { this.size = size; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public int getPages() { return pages; }
-    public void setPages(int pages) { this.pages = pages; }
+    public String getCategory() {
+        return category;
+    }
 
-    public String getColor() { return color; }
-    public void setColor(String color) { this.color = color; }
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-    public String getMaterial() { return material; }
-    public void setMaterial(String material) { this.material = material; }
+    public String getBrand() {
+        return brand;
+    }
 
-    public String getUnitType() { return unitType; }
-    public void setUnitType(String unitType) { this.unitType = unitType; }
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
-    public String getBarcode() { return barcode; }
-    public void setBarcode(String barcode) { this.barcode = barcode; }
+    public String getSize() {
+        return size;
+    }
 
-    public String getSku() { return sku; }
-    public void setSku(String sku) { this.sku = sku; }
+    public void setSize(String size) {
+        this.size = size;
+    }
 
-    public int getQuantityInStock() { return quantityInStock; }
-    public void setQuantityInStock(int quantityInStock) { this.quantityInStock = quantityInStock; }
+    public int getPages() {
+        return pages;
+    }
 
-    public int getReorderLevel() { return reorderLevel; }
-    public void setReorderLevel(int reorderLevel) { this.reorderLevel = reorderLevel; }
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
 
-    public BigDecimal getCostPrice() { return costPrice; }
-    public void setCostPrice(BigDecimal costPrice) { this.costPrice = costPrice; }
+    public String getColor() {
+        return color;
+    }
 
-    public BigDecimal getSellingPrice() { return sellingPrice; }
-    public void setSellingPrice(BigDecimal sellingPrice) { this.sellingPrice = sellingPrice; }
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-    public BigDecimal getDiscountPercent() { return discountPercent; }
-    public void setDiscountPercent(BigDecimal discountPercent) { this.discountPercent = discountPercent; }
+    public String getMaterial() {
+        return material;
+    }
 
-    public LocalDateTime getAddedDate() { return addedDate; }
-    public void setAddedDate(LocalDateTime addedDate) { this.addedDate = addedDate; }
+    public void setMaterial(String material) {
+        this.material = material;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getUnitType() {
+        return unitType;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public int getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
+    }
+
+    public int getReorderLevel() {
+        return reorderLevel;
+    }
+
+    public void setReorderLevel(int reorderLevel) {
+        this.reorderLevel = reorderLevel;
+    }
+
+    public BigDecimal getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(BigDecimal costPrice) {
+        this.costPrice = costPrice;
+    }
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public BigDecimal getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(BigDecimal discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public LocalDateTime getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(LocalDateTime addedDate) {
+        this.addedDate = addedDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 } 

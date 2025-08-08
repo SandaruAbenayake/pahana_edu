@@ -21,7 +21,8 @@ public class Bill {
     private int createdBy;
 
     // Default constructor
-    public Bill() {}
+    public Bill() {
+    }
 
     // Constructor with basic fields
     public Bill(int billId, int customerId, String customerName, BigDecimal totalAmount,
@@ -42,45 +43,115 @@ public class Bill {
 
 
     // Getters and Setters
-    public int getBillId() { return billId; }
-    public void setBillId(int billId) { this.billId = billId; }
+    public int getBillId() {
+        return billId;
+    }
 
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
+    public void setBillId(int billId) {
+        this.billId = billId;
+    }
 
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public int getCustomerId() {
+        return customerId;
+    }
 
-    public BigDecimal getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
 
-    public BigDecimal getDiscountAmount() { return discountAmount; }
-    public void setDiscountAmount(BigDecimal discountAmount) { this.discountAmount = discountAmount; }
+    public String getCustomerName() {
+        return customerName;
+    }
 
-    public BigDecimal getFinalAmount() { return finalAmount; }
-    public void setFinalAmount(BigDecimal finalAmount) { this.finalAmount = finalAmount; }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-    public LocalDateTime getBillDate() { return billDate; }
-    public void setBillDate(LocalDateTime billDate) { this.billDate = billDate; }
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
-    public String getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
 
-    public List<BillItem> getBillItems() { return billItems; }
-    public void setBillItems(List<BillItem> billItems) { this.billItems = billItems; }
+    public BigDecimal getFinalAmount() {
+        return finalAmount;
+    }
 
-    public BigDecimal getAmountPaid() {return amountPaid;}
-    public void setBalanceReturned(BigDecimal balanceReturned) {this.balanceReturned = balanceReturned;}
+    public void setFinalAmount(BigDecimal finalAmount) {
+        this.finalAmount = finalAmount;
+    }
 
-    public void setAmountPaid(BigDecimal amountPaid) {this.amountPaid = amountPaid;}
-    public int getCreatedBy() {return createdBy;}
+    public LocalDateTime getBillDate() {
+        return billDate;
+    }
 
-    public BigDecimal getBalanceReturned() {return balanceReturned;}
-    public void setCreatedBy(int createdBy) {this.createdBy = createdBy;}
+    public void setBillDate(LocalDateTime billDate) {
+        this.billDate = billDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public List<BillItem> getBillItems() {
+        return billItems;
+    }
+
+    public void setBillItems(List<BillItem> billItems) {
+        this.billItems = billItems;
+    }
+
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setBalanceReturned(BigDecimal balanceReturned) {
+        this.balanceReturned = balanceReturned;
+    }
+
+    public void setAmountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public BigDecimal getBalanceReturned() {
+        return balanceReturned;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
 } 

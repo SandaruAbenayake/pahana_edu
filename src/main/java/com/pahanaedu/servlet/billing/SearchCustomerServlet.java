@@ -7,28 +7,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/billing/searchCustomer")
 public class SearchCustomerServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String searchTerm = request.getParameter("searchTerm");
         String searchType = request.getParameter("searchType"); // "name" or "nic"
-        
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
+
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             List<Customer> customers;
-            
+
             if ("nic".equals(searchType)) {
                 // Search by NIC
                 customers = CustomerDAO.searchCustomersByNIC(searchTerm.trim());
@@ -36,7 +37,7 @@ public class SearchCustomerServlet extends HttpServlet {
                 // Search by name (default)
                 customers = searchCustomersByName(searchTerm.trim());
             }
-            
+
             // Return JSON response
             StringBuilder json = new StringBuilder();
             json.append("[");
@@ -57,23 +58,23 @@ public class SearchCustomerServlet extends HttpServlet {
                 }
             }
             json.append("]");
-            
+
             response.getWriter().write(json.toString());
         } else {
             response.getWriter().write("[]");
         }
     }
-    
+
     private List<Customer> searchCustomersByName(String searchTerm) {
         return CustomerDAO.searchCustomersByName(searchTerm);
     }
-    
+
     private String escapeJson(String value) {
         if (value == null) return "";
         return value.replace("\\", "\\\\")
-                   .replace("\"", "\\\"")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t");
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 } 

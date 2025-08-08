@@ -25,9 +25,15 @@
         }
 
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .dashboard-container {
@@ -82,7 +88,8 @@
 
 <div class="dashboard-container">
     <h2>Welcome Cashier, <%= user.getUsername() %>!</h2>
-    <p>Role: <%= user.getRole() %></p>
+    <p>Role: <%= user.getRole() %>
+    </p>
 
     <div class="menu">
         <!-- Customer Section -->

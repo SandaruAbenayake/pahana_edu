@@ -16,11 +16,12 @@ public class BillItem {
     private BigDecimal finalPrice;
 
     // Default constructor
-    public BillItem() {}
+    public BillItem() {
+    }
 
     // Constructor with basic fields
     public BillItem(int billItemId, int billId, int productId, String productName, String productCode,
-                   int quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+                    int quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
         this.billItemId = billItemId;
         this.billId = billId;
         this.productId = productId;
@@ -33,8 +34,8 @@ public class BillItem {
 
     // Constructor with all fields
     public BillItem(int billItemId, int billId, int productId, String productName, String productCode,
-                   int quantity, BigDecimal unitPrice, BigDecimal totalPrice, 
-                   BigDecimal discountPercent, BigDecimal discountAmount, BigDecimal finalPrice) {
+                    int quantity, BigDecimal unitPrice, BigDecimal totalPrice,
+                    BigDecimal discountPercent, BigDecimal discountAmount, BigDecimal finalPrice) {
         this.billItemId = billItemId;
         this.billId = billId;
         this.productId = productId;
@@ -49,38 +50,93 @@ public class BillItem {
     }
 
     // Getters and Setters
-    public int getBillItemId() { return billItemId; }
-    public void setBillItemId(int billItemId) { this.billItemId = billItemId; }
+    public int getBillItemId() {
+        return billItemId;
+    }
 
-    public int getBillId() { return billId; }
-    public void setBillId(int billId) { this.billId = billId; }
+    public void setBillItemId(int billItemId) {
+        this.billItemId = billItemId;
+    }
 
-    public int getProductId() { return productId; }
-    public void setProductId(int productId) { this.productId = productId; }
+    public int getBillId() {
+        return billId;
+    }
 
-    public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
+    public void setBillId(int billId) {
+        this.billId = billId;
+    }
 
-    public String getProductCode() { return productCode; }
-    public void setProductCode(String productCode) { this.productCode = productCode; }
+    public int getProductId() {
+        return productId;
+    }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
-    public BigDecimal getUnitPrice() { return unitPrice; }
-    public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
+    public String getProductName() {
+        return productName;
+    }
 
-    public BigDecimal getTotalPrice() { return totalPrice; }
-    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-    public BigDecimal getDiscountPercent() { return discountPercent; }
-    public void setDiscountPercent(BigDecimal discountPercent) { this.discountPercent = discountPercent; }
+    public String getProductCode() {
+        return productCode;
+    }
 
-    public BigDecimal getDiscountAmount() { return discountAmount; }
-    public void setDiscountAmount(BigDecimal discountAmount) { this.discountAmount = discountAmount; }
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-    public BigDecimal getFinalPrice() { return finalPrice; }
-    public void setFinalPrice(BigDecimal finalPrice) { this.finalPrice = finalPrice; }
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public BigDecimal getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(BigDecimal discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
 
     // Helper method to calculate total price
     public void calculateTotalPrice() {

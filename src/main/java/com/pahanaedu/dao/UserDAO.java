@@ -3,7 +3,9 @@ package com.pahanaedu.dao;
 import com.pahanaedu.db.DBConnection;
 import com.pahanaedu.model.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UserDAO {
 
@@ -47,10 +49,10 @@ public class UserDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 User user = new User(
-                    rs.getInt("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("role")
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("role")
                 );
                 users.add(user);
             }

@@ -119,45 +119,45 @@
             color: #d9534f;
         }
     </style>
-<script>
-    // Ensure functions are available globally
-    window.editUser = function(id, username, password, role) {
-        document.getElementById('username').value = username;
-        document.getElementById('password').value = password;
-        document.getElementById('role').value = role;
-        document.getElementById('userId').value = id;
-        document.getElementById('formTitle').innerText = 'Edit User';
-        document.getElementById('submitBtn').innerText = 'Update User';
-        document.getElementById('cancelBtn').style.display = 'inline-block';
-        document.getElementById('userForm').action = 'updateUser';
-    };
+    <script>
+        // Ensure functions are available globally
+        window.editUser = function (id, username, password, role) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            document.getElementById('role').value = role;
+            document.getElementById('userId').value = id;
+            document.getElementById('formTitle').innerText = 'Edit User';
+            document.getElementById('submitBtn').innerText = 'Update User';
+            document.getElementById('cancelBtn').style.display = 'inline-block';
+            document.getElementById('userForm').action = 'updateUser';
+        };
 
-    window.editUserFromAttr = function(el) {
-        window.editUser(
-            el.getAttribute('data-id'),
-            el.getAttribute('data-username'),
-            el.getAttribute('data-password'),
-            el.getAttribute('data-role')
-        );
-    };
+        window.editUserFromAttr = function (el) {
+            window.editUser(
+                el.getAttribute('data-id'),
+                el.getAttribute('data-username'),
+                el.getAttribute('data-password'),
+                el.getAttribute('data-role')
+            );
+        };
 
-    window.cancelEdit = function() {
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('role').value = 'user';
-        document.getElementById('userId').value = '';
-        document.getElementById('formTitle').innerText = 'Create User';
-        document.getElementById('submitBtn').innerText = 'Create User';
-        document.getElementById('cancelBtn').style.display = 'none';
-        document.getElementById('userForm').action = 'createUser';
-    };
+        window.cancelEdit = function () {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('role').value = 'user';
+            document.getElementById('userId').value = '';
+            document.getElementById('formTitle').innerText = 'Create User';
+            document.getElementById('submitBtn').innerText = 'Create User';
+            document.getElementById('cancelBtn').style.display = 'none';
+            document.getElementById('userForm').action = 'createUser';
+        };
 
-    window.deleteUser = function(id) {
-        if (confirm('Are you sure you want to delete this user?')) {
-            window.location.href = 'deleteUser?id=' + id;
-        }
-    };
-</script>
+        window.deleteUser = function (id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                window.location.href = 'deleteUser?id=' + id;
+            }
+        };
+    </script>
 </head>
 <body>
 <div class="container">

@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @WebServlet("/deleteItem")
@@ -14,7 +15,7 @@ public class DeleteItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productIdStr = request.getParameter("productId");
         String msg;
-        
+
         if (productIdStr != null) {
             try {
                 int productId = Integer.parseInt(productIdStr);
@@ -30,7 +31,7 @@ public class DeleteItemServlet extends HttpServlet {
         } else {
             msg = "Product ID not provided.";
         }
-        
+
         request.getSession().setAttribute("success", msg);
         response.sendRedirect("itemPage.jsp");
     }

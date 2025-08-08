@@ -16,11 +16,12 @@ public class Customer {
     private String status;
 
     // Default constructor
-    public Customer() {}
+    public Customer() {
+    }
 
     // Constructor with all fields
-    public Customer(int customerId, String fullName, String email, String phone, String nic, 
-                   String address, String gender, LocalDate dob, LocalDateTime registeredDate, String status) {
+    public Customer(int customerId, String fullName, String email, String phone, String nic,
+                    String address, String gender, LocalDate dob, LocalDateTime registeredDate, String status) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
@@ -34,33 +35,83 @@ public class Customer {
     }
 
     // Getters and Setters
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
+    public int getCustomerId() {
+        return customerId;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getFullName() {
+        return fullName;
+    }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-    public String getNic() { return nic; }
-    public void setNic(String nic) { this.nic = nic; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public LocalDate getDob() { return dob; }
-    public void setDob(LocalDate dob) { this.dob = dob; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public LocalDateTime getRegisteredDate() { return registeredDate; }
-    public void setRegisteredDate(LocalDateTime registeredDate) { this.registeredDate = registeredDate; }
+    public String getNic() {
+        return nic;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public LocalDateTime getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(LocalDateTime registeredDate) {
+        this.registeredDate = registeredDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 } 
