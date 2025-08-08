@@ -14,26 +14,31 @@ public class BillDAO {
 
     // Create new bill
     public static int createBill(Bill bill) {
+        System.out.println(bill);
         int billId = -1;
         try {
             Connection conn = DBConnection.getInstance().getConnection();
             conn.setAutoCommit(false);
             
             // Insert bill
-            String sql = "INSERT INTO bills (customer_id, customer_name, total_amount, discount_amount, final_amount, bill_date, status, payment_method, notes) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO bills (customer_id, total_amount, discount_amount, final_amount, amount_paid, balance_returned, payment_method, notes, status, bill_date, created_by) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
+            System.out.println(bill);
             stmt.setInt(1, bill.getCustomerId());
-            stmt.setString(2, bill.getCustomerName());
-            stmt.setBigDecimal(3, bill.getTotalAmount());
-            stmt.setBigDecimal(4, bill.getDiscountAmount() != null ? bill.getDiscountAmount() : BigDecimal.ZERO);
-            stmt.setBigDecimal(5, bill.getFinalAmount());
-            stmt.setTimestamp(6, bill.getBillDate() != null ? Timestamp.valueOf(bill.getBillDate()) : Timestamp.valueOf(LocalDateTime.now()));
-            stmt.setString(7, bill.getStatus() != null ? bill.getStatus() : "pending");
-            stmt.setString(8, bill.getPaymentMethod());
-            stmt.setString(9, bill.getNotes());
-            
+            stmt.setBigDecimal(2, bill.getTotalAmount());
+            stmt.setBigDecimal(3, bill.getDiscountAmount() != null ? bill.getDiscountAmount() : BigDecimal.ZERO);
+            stmt.setBigDecimal(4, bill.getFinalAmount());
+            stmt.setBigDecimal(5, bill.getAmountPaid());
+            stmt.setBigDecimal(6, bill.getBalanceReturned());
+            stmt.setString(7, bill.getPaymentMethod());
+            stmt.setString(8, bill.getNotes());
+            stmt.setString(9, bill.getStatus() != null ? bill.getStatus() : "pending");
+            stmt.setTimestamp(10, bill.getBillDate() != null ? Timestamp.valueOf(bill.getBillDate()) : Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(11, bill.getCreatedBy());
+
+
             int rows = stmt.executeUpdate();
             if (rows > 0) {
                 ResultSet rs = stmt.getGeneratedKeys();
@@ -97,18 +102,22 @@ public class BillDAO {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                bill = new Bill(
-                    rs.getInt("bill_id"),
-                    rs.getInt("customer_id"),
-                    rs.getString("customer_name"),
-                    rs.getBigDecimal("total_amount"),
-                    rs.getBigDecimal("discount_amount"),
-                    rs.getBigDecimal("final_amount"),
-                    rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null,
-                    rs.getString("status")
-                );
+                bill = new Bill();
+                bill.setBillId(rs.getInt("bill_id"));
+                bill.setCustomerId(rs.getInt("customer_id"));
+                bill.setCustomerName(rs.getString("customer_name"));
+                bill.setTotalAmount(rs.getBigDecimal("total_amount"));
+                bill.setDiscountAmount(rs.getBigDecimal("discount_amount"));
+                bill.setFinalAmount(rs.getBigDecimal("final_amount"));
+                bill.setAmountPaid(rs.getBigDecimal("amount_paid"));
+                bill.setBalanceReturned(rs.getBigDecimal("balance_returned"));
+                bill.setBillDate(rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null);
+                bill.setStatus(rs.getString("status"));
                 bill.setPaymentMethod(rs.getString("payment_method"));
                 bill.setNotes(rs.getString("notes"));
+                bill.setCreatedBy(rs.getInt("created_by"));
+
+
                 
                 // Get bill items
                 bill.setBillItems(getBillItemsByBillId(billId));
@@ -165,16 +174,21 @@ public class BillDAO {
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
-                Bill bill = new Bill(
-                    rs.getInt("bill_id"),
-                    rs.getInt("customer_id"),
-                    rs.getString("customer_name"),
-                    rs.getBigDecimal("total_amount"),
-                    rs.getBigDecimal("discount_amount"),
-                    rs.getBigDecimal("final_amount"),
-                    rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null,
-                    rs.getString("status")
-                );
+                Bill bill = new Bill();
+                bill.setBillId(rs.getInt("bill_id"));
+                bill.setCustomerId(rs.getInt("customer_id"));
+                bill.setCustomerName(rs.getString("customer_name"));
+                bill.setTotalAmount(rs.getBigDecimal("total_amount"));
+                bill.setDiscountAmount(rs.getBigDecimal("discount_amount"));
+                bill.setFinalAmount(rs.getBigDecimal("final_amount"));
+                bill.setAmountPaid(rs.getBigDecimal("amount_paid"));
+                bill.setBalanceReturned(rs.getBigDecimal("balance_returned"));
+                bill.setBillDate(rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null);
+                bill.setStatus(rs.getString("status"));
+                bill.setPaymentMethod(rs.getString("payment_method"));
+                bill.setNotes(rs.getString("notes"));
+                bill.setCreatedBy(rs.getInt("created_by"));
+
                 bill.setPaymentMethod(rs.getString("payment_method"));
                 bill.setNotes(rs.getString("notes"));
                 bills.add(bill);

@@ -16,22 +16,30 @@ public class Bill {
     private String paymentMethod;
     private String notes;
     private List<BillItem> billItems;
+    private BigDecimal amountPaid;
+    private BigDecimal balanceReturned;
+    private int createdBy;
 
     // Default constructor
     public Bill() {}
 
     // Constructor with basic fields
-    public Bill(int billId, int customerId, String customerName, BigDecimal totalAmount, 
-                BigDecimal discountAmount, BigDecimal finalAmount, LocalDateTime billDate, String status) {
+    public Bill(int billId, int customerId, String customerName, BigDecimal totalAmount,
+                BigDecimal discountAmount, BigDecimal finalAmount, BigDecimal amountPaid,
+                BigDecimal balanceReturned, LocalDateTime billDate, String status, int createdBy) {
         this.billId = billId;
         this.customerId = customerId;
         this.customerName = customerName;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
+        this.amountPaid = amountPaid;
+        this.balanceReturned = balanceReturned;
         this.billDate = billDate;
         this.status = status;
+        this.createdBy = createdBy;
     }
+
 
     // Getters and Setters
     public int getBillId() { return billId; }
@@ -66,4 +74,13 @@ public class Bill {
 
     public List<BillItem> getBillItems() { return billItems; }
     public void setBillItems(List<BillItem> billItems) { this.billItems = billItems; }
+
+    public BigDecimal getAmountPaid() {return amountPaid;}
+    public void setBalanceReturned(BigDecimal balanceReturned) {this.balanceReturned = balanceReturned;}
+
+    public void setAmountPaid(BigDecimal amountPaid) {this.amountPaid = amountPaid;}
+    public int getCreatedBy() {return createdBy;}
+
+    public BigDecimal getBalanceReturned() {return balanceReturned;}
+    public void setCreatedBy(int createdBy) {this.createdBy = createdBy;}
 } 

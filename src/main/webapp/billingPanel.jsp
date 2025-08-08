@@ -33,6 +33,10 @@
         .autocomplete-item:hover {
             background-color: #f1f1f1;
         }
+
+        .modal-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -120,6 +124,7 @@
 
                     <button class="btn btn-success w-100" id="addToBillBtn" onclick="addToBill()" disabled>Add to Bill
                     </button>
+
                 </div>
             </div>
         </div>
@@ -147,7 +152,15 @@
                     <p>Discount: <strong id="discount">$0.00</strong></p>
                     <p>Total: <strong id="total">$0.00</strong></p>
                 </div>
-
+                <div class="mb-3">
+                    <label>Amount Given</label>
+                    <input type="number" class="form-control" id="amountGiven" placeholder="Amount given by customer"
+                           oninput="updateBalance()">
+                </div>
+                <div class="mb-3">
+                    <label>Balance</label>
+                    <input type="text" class="form-control" id="balance" readonly>
+                </div>
                 <div class="mb-3">
                     <label>Payment Method</label>
                     <select class="form-select" id="paymentMethod">
@@ -186,6 +199,7 @@
     const itemSuggestionsBox = document.getElementById('autocompleteResults');
 
     let debounce;
+    let selectedCustomer = null;
 
     customerInput.addEventListener('input', function () {
         const value = this.value.trim();
@@ -318,10 +332,17 @@
         document.getElementById("customerAddress").textContent = customer.address;
         document.getElementById("customerStatus").textContent = customer.status;
         document.getElementById("customerDetails").style.display = "block";
+        selectedCustomer = customer; // Store full customer object
     }
 
+
+    let billItemsList = [];
+    let selectedItem = null
+
     function displayItemDetails(item) {
+        selectedItem = item;
         document.getElementById('itemCode').textContent = item.sku;
+        document.getElementById('itemCode').setAttribute('data-product-id', item.id); // Store product ID
         document.getElementById('itemName').textContent = item.name;
         document.getElementById('itemPrice').textContent = item.sellingPrice;
         document.getElementById('itemStock').textContent = item.quantityInStock;
@@ -336,72 +357,97 @@
         document.getElementById('itemTotal').value = total.toFixed(2);
     }
 
+    // Array to store bill items
+
     function addToBill() {
-        const code = document.getElementById('itemCode').textContent;
-        const name = document.getElementById('itemName').textContent;
         const price = parseFloat(document.getElementById('itemPrice').textContent) || 0;
         const qty = parseInt(document.getElementById('itemQuantity').value) || 0;
-        const stock = parseInt(document.getElementById('itemStock').textContent) || 0;
-        if (qty < 1 || qty > stock) {
+        if (qty < 1 || qty > selectedItem.quantityInStock) {
             alert('Invalid quantity!');
             return;
         }
-        console.log(code, name, price, qty);
+
         const total = price * qty;
-        const billItems = document.getElementById('billItems');
-        let row = document.createElement('tr');
-        const tdCode = document.createElement('td');
-        tdCode.textContent = code;
-        row.appendChild(tdCode);
 
-        const tdName = document.createElement('td');
-        tdName.textContent = name;
-        row.appendChild(tdName);
-
-        const tdQty = document.createElement('td');
-        tdQty.textContent = qty;
-        row.appendChild(tdQty);
-
-        const tdPrice = document.createElement('td');
-        tdPrice.textContent = price.toFixed(2);
-        row.appendChild(tdPrice);
-
-        const tdTotal = document.createElement('td');
-        tdTotal.textContent = total.toFixed(2);
-        row.appendChild(tdTotal);
-
-        const tdBtn = document.createElement('td');
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-danger btn-sm';
-        btn.textContent = 'Remove';
-        btn.onclick = function () {
-            this.closest('tr').remove();
-            updateBillTotals();
+        // Create bill item object
+        const billItem = {
+            productId: selectedItem.productId,
+            code: selectedItem.sku,
+            name: selectedItem.name,
+            price: price,
+            quantity: qty,
+            total: total
         };
-        tdBtn.appendChild(btn);
-        row.appendChild(tdBtn);
-        console.log(row)
-        billItems.appendChild(row);
+
+        console.log(billItem);
+        // Add to billItemsList array
+        billItemsList.push(billItem);
+
+        // Recreate the entire bill items table
+        const billItemsTable = document.getElementById('billItems');
+        billItemsTable.innerHTML = '';
+
+        // Rebuild table from billItemsList
+        billItemsList.forEach((item, idx) => {
+            let row = document.createElement('tr');
+            row.innerHTML =
+                '<td>' + item.code + '</td>' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.quantity + '</td>' +
+                '<td>' + item.price.toFixed(2) + '</td>' +
+                '<td>' + item.total.toFixed(2) + '</td>' +
+                '<td>' +
+                '<button class="btn btn-danger btn-sm" onclick="removeFromBill(' + idx + ')">Remove</button>' +
+                '</td>';
+            billItemsTable.appendChild(row);
+        });
+
         updateBillTotals();
+
+        // Reset item entry form
         document.getElementById('itemDetails').style.display = 'none';
         document.getElementById('addToBillBtn').disabled = true;
         document.getElementById('itemSearch').value = '';
     }
 
-    function updateBillTotals() {
-        let subtotal = 0;
-        // Only count rows that are direct children of #billItems
-        document.querySelectorAll('#billItems > tr').forEach(row => {
-            if (row.children.length >= 5) {
-                const totalCell = row.children[4];
-                const value = parseFloat(totalCell.textContent);
-                if (!isNaN(value)) subtotal += value;
-            }
-        });
-        document.getElementById('subtotal').textContent = 'Rs' + subtotal.toFixed(2);
-        document.getElementById('discount').textContent = 'Rs0.00';
-        document.getElementById('total').textContent = 'Rs' + subtotal.toFixed(2);
+    function removeFromBill(index) {
+        // Remove item from billItemsList array
+        billItemsList.splice(index, 1);
 
+        // Recreate the entire bill items table
+        const billItemsTable = document.getElementById('billItems');
+        billItemsTable.innerHTML = '';
+
+        // Rebuild table from billItemsList
+        billItemsList.forEach((item, idx) => {
+            let row = document.createElement('tr');
+            row.innerHTML =
+                '<td>' + item.code + '</td>' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.quantity + '</td>' +
+                '<td>' + item.price.toFixed(2) + '</td>' +
+                '<td>' + item.total.toFixed(2) + '</td>' +
+                '<td>' +
+                '<button class="btn btn-danger btn-sm" onclick="removeFromBill(' + idx + ')">Remove</button>' +
+                '</td>';
+            billItemsTable.appendChild(row);
+        });
+
+        updateBillTotals();
+    }
+
+    function updateBalance() {
+        const given = parseFloat(document.getElementById('amountGiven').value) || 0;
+        const total = parseFloat(document.getElementById('total').textContent.replace('Rs', '').replace('$', '')) || 0;
+        const balance = given - total;
+        document.getElementById('balance').value = balance.toFixed(2);
+    }
+
+    function updateBillTotals() {
+        let subtotal = billItemsList.reduce((sum, item) => sum + item.total, 0);
+        document.getElementById('subtotal').textContent = 'Rs' + subtotal.toFixed(2);
+        document.getElementById('total').textContent = 'Rs' + subtotal.toFixed(2);
+        updateBalance();
     }
 
     function confirmBill() {
@@ -414,56 +460,147 @@
             alert('Please select a customer!');
             return;
         }
-        if (confirm('Are you sure you want to confirm this bill?')) {
-            // Show purchase summary table
-            showPurchaseSummary();
-        }
+        // Show modal popup for purchase summary
+        showPurchaseSummaryModal();
     }
 
-    function showPurchaseSummary() {
-        // Remove old summary if exists
-        let oldSummary = document.getElementById('purchaseSummary');
-        if (oldSummary) oldSummary.remove();
+    function showPurchaseSummaryModal() {
+        // Remove old modal if exists
+        let oldModal = document.getElementById('purchaseSummaryModal');
+        if (oldModal) oldModal.remove();
 
-        // Create summary table
-        const summaryDiv = document.createElement('div');
-        summaryDiv.id = 'purchaseSummary';
-        summaryDiv.className = 'card p-4 mt-4';
-        summaryDiv.innerHTML = `<h4>Purchase Summary</h4>
-            <p><strong>Customer:</strong> ${document.getElementById('customerName').textContent}</p>
-            <table class="table table-bordered">
-                <thead><tr><th>Item Code</th><th>Item Name</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
-                <tbody id="purchaseSummaryBody"></tbody>
-            </table>
-            <p><strong>Bill Total:</strong> <span id="purchaseSummaryTotal"></span></p>
-            <button class="btn btn-success" onclick="finalizeBill()">Yes, Purchase</button>
-            <button class="btn btn-secondary ms-2" onclick="this.closest('#purchaseSummary').remove()">Cancel</button>`;
-        document.querySelector('.container').appendChild(summaryDiv);
-
-        // Fill table rows
+        // Create modal HTML
+        const modalDiv = document.createElement('div');
+        modalDiv.id = 'purchaseSummaryModal';
+        modalDiv.className = 'modal fade show';
+        modalDiv.style.display = 'block';
+        modalDiv.innerHTML = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Purchase Summary</h5>
+                    <button type="button" class="btn-close" onclick="closePurchaseSummaryModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Customer:</strong> ${document.getElementById('customerName').textContent}</p>
+                    <table class="table table-bordered">
+                        <thead><tr><th>Item Code</th><th>Item Name</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+                        <tbody id="purchaseSummaryBody"></tbody>
+                    </table>
+                    <p><strong>Bill Total:</strong> <span id="purchaseSummaryTotal"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="finalizeBill()">Finalize Bill</button>
+                    <button class="btn btn-secondary" onclick="closePurchaseSummaryModal()">Close</button>
+                </div>
+            </div>
+        </div>`;
+        document.body.appendChild(modalDiv);
+        document.body.classList.add('modal-open');
+        // Fill table rows AFTER modal is in DOM
         let sum = 0;
+        // Clear previous rows if any
+        const summaryBody = modalDiv.querySelector('#purchaseSummaryBody');
+        summaryBody.innerHTML = '';
         document.querySelectorAll('#billItems > tr').forEach(row => {
-            const code = row.children[0].textContent;
-            const name = row.children[1].textContent;
-            const qty = row.children[2].textContent;
-            const price = row.children[3].textContent;
-            const total = row.children[4].textContent;
-            sum += parseFloat(total) || 0;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${code}</td><td>${name}</td><td>${price}</td><td>${qty}</td><td>${total}</td>`;
-            document.getElementById('purchaseSummaryBody').appendChild(tr);
+            if (row.children.length >= 5) {
+                const code = row.children[0].textContent;
+                const name = row.children[1].textContent;
+                const qty = row.children[2].textContent;
+                const price = row.children[3].textContent;
+                const total = row.children[4].textContent;
+                sum += parseFloat(total) || 0;
+                const tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + code + '</td><td>' + name + '</td><td>' + price + '</td><td>' + qty + '</td><td>' + total + '</td>';
+                summaryBody.appendChild(tr);
+            }
         });
-        document.getElementById('purchaseSummaryTotal').textContent = 'Rs' + sum.toFixed(2);
+        modalDiv.querySelector('#purchaseSummaryTotal').textContent = 'Rs' + sum.toFixed(2);
+    }
+
+    function closePurchaseSummaryModal() {
+        let modal = document.getElementById('purchaseSummaryModal');
+        if (modal) modal.remove();
+        document.body.classList.remove('modal-open');
+    }
+
+    function printBill() {
+        let modalContent = document.querySelector('#purchaseSummaryModal .modal-content');
+        let printWindow = window.open('', '', 'width=900,height=600');
+        printWindow.document.write('<html><head><title>Print Bill</title>');
+        printWindow.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(modalContent.innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    }
+
+    function resetBill() {
+        document.getElementById('billItems').innerHTML = '';
+        document.getElementById('subtotal').textContent = 'Rs0.00';
+        document.getElementById('discount').textContent = 'Rs0.00';
+        document.getElementById('total').textContent = 'Rs0.00';
+        document.getElementById('amountGiven').value = '';
+        document.getElementById('balance').value = '';
+        document.getElementById('customerSearch').value = '';
+        document.getElementById('itemSearch').value = '';
+        document.getElementById('customerDetails').style.display = 'none';
+        document.getElementById('itemDetails').style.display = 'none';
+        document.getElementById('notes').value = '';
+        document.getElementById('paymentMethod').value = 'cash';
     }
 
     function finalizeBill() {
-        alert('Bill confirmed and purchase completed!');
-        // Optionally, send data to server here
-        document.getElementById('purchaseSummary').remove();
-        // Reset bill table and totals
-        document.getElementById('billItems').innerHTML = '';
-        updateBillTotals();
+        // Collect bill data
+        const customerId = selectedCustomer && selectedCustomer.customerId ? selectedCustomer.customerId : null;
+        const customerName = selectedCustomer && selectedCustomer.fullName ? selectedCustomer.fullName : '';
+        const items = [];
+        billItemsList.forEach(row => {
+            // Spread operator to include all properties
+            items.push({
+                ...row,
+                qty: row.quantity,
+            });
+        });
+        const total = document.getElementById('total').textContent.replace('Rs', '').replace('$', '');
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        const notes = document.getElementById('notes').value;
+        const billData = {
+            customerId,
+            customerName,
+            items,
+            total,
+            paymentMethod,
+            notes
+        };
+        // Send bill data to backend
+        fetch('billing/createBill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(billData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Bill saved to database!');
+                    closePurchaseSummaryModal();
+                    resetBill();
+                } else {
+                    alert('Error saving bill: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                alert('Error saving bill: ' + err);
+            });
     }
+
 
 </script>
 </body>

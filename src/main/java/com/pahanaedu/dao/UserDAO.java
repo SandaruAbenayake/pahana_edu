@@ -21,12 +21,11 @@ public class UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                user = new User(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("role")
-                );
+                user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setRole(rs.getString("role"));
+                // Don't set password for security
             }
 
             rs.close();
