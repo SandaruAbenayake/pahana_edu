@@ -157,4 +157,21 @@ public class BillItem {
             }
         }
     }
-} 
+
+    @Override
+    public String toString() {
+        return "BillItem{" +
+                "billItemId=" + billItemId +
+                ", billId=" + billId +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", quantity=" + quantity +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
+                ", discountPercent=" + discountPercent +
+                ", discountAmount=" + discountAmount +
+                ", finalPrice=" + finalPrice +
+                '}';
+    }
+}

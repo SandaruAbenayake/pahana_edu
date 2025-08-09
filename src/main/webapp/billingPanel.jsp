@@ -570,13 +570,15 @@
         const total = document.getElementById('total').textContent.replace('Rs', '').replace('$', '');
         const paymentMethod = document.getElementById('paymentMethod').value;
         const notes = document.getElementById('notes').value;
+        const givenAmount = document.getElementById('amountGiven').value || 0;
         const billData = {
             customerId,
             customerName,
             items,
             total,
             paymentMethod,
-            notes
+            notes,
+            givenAmount
         };
         // Send bill data to backend
         fetch('billing/createBill', {

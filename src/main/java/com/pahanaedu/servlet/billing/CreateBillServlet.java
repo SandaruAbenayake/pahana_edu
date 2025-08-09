@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,8 @@ public class CreateBillServlet extends HttpServlet {
             String paymentMethod = json.path("paymentMethod").asText("");
             String notes = json.path("notes").asText("");
             BigDecimal totalAmount = new BigDecimal(json.path("total").asText("0"));
+            BigDecimal givenAmount = new BigDecimal(json.path("givenAmount").asText("0"));
+            BigDecimal balance = givenAmount.subtract(totalAmount);
             List<BillItem> billItems = new ArrayList<>();
             for (JsonNode itemNode : json.path("items")) {
                 BillItem item = new BillItem();
@@ -54,9 +55,9 @@ public class CreateBillServlet extends HttpServlet {
             bill.setCustomerName(customerName);
             bill.setPaymentMethod(paymentMethod);
             bill.setNotes(notes);
-            bill.setBillDate(LocalDateTime.now());
-            bill.setAmountPaid(totalAmount);
-            bill.setBalanceReturned(BigDecimal.ZERO);
+//            bill.setBillDate(LocalDateTime.now().toString());
+            bill.setAmountPaid(givenAmount);
+            bill.setBalanceReturned(balance);
             // Get userId from session
             Integer userId = (Integer) request.getSession().getAttribute("userId");
             com.pahanaedu.model.User user = (com.pahanaedu.model.User) request.getSession().getAttribute("user");
