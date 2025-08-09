@@ -4,187 +4,300 @@
     <meta charset="UTF-8">
     <title>Cashier Billing Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #005cbf;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
         }
 
         .card {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: none;
+            margin-bottom: 20px;
         }
 
-        .autocomplete-results {
-            position: absolute;
-            z-index: 1000;
-            background: white;
-            border: 1px solid #ced4da;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
+        .search-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        .autocomplete-item {
-            padding: 10px;
-            cursor: pointer;
+        .search-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
-        .autocomplete-item:hover {
-            background-color: #f1f1f1;
+        .form-control, .form-select {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
         }
 
-        .modal-open {
-            overflow: hidden;
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+        }
+
+        .btn-outline-primary {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        .btn-outline-primary:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+        }
+
+        .list-group-item {
+            border-color: #e0e0e0;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card mb-4 p-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>Cashier Billing Panel</h2>
-            <%
-                String role = (String) session.getAttribute("role");
-                String homePage = "login.jsp"; // default fallback
-
-                if ("admin".equalsIgnoreCase(role)) {
-                    homePage = "dashboard.jsp";
-                } else if ("user".equalsIgnoreCase(role)) {
-                    homePage = "userDashboard.jsp";
-                }
-            %>
-            <a href="<%= homePage %>" class="btn btn-secondary">Back</a>
-        </div>
-
+<div class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h2>Cashier Billing Panel</h2>
+        <%
+            String role = (String) session.getAttribute("role");
+            String homePage = "login.jsp";
+            if ("admin".equalsIgnoreCase(role)) {
+                homePage = "dashboard.jsp";
+            } else if ("user".equalsIgnoreCase(role)) {
+                homePage = "userDashboard.jsp";
+            }
+        %>
+        <a href="<%= homePage %>" class="btn btn-outline-primary">Back to Dashboard</a>
     </div>
+</div>
 
-    <!-- Customer Section -->
-    <div class="card mb-4 p-4">
-        <h4>Customer Info</h4>
-        <div class="row g-2 mb-3">
+<div class="container">
+    <div class="search-section">
+        <div class="row g-3">
             <div class="col-md-6">
-                <input type="text" class="form-control" id="customerSearch" placeholder="Search by name or NIC">
+                <input type="text" class="form-control form-control-lg" id="customerSearch" placeholder="Search customer by name or NIC">
             </div>
             <div class="col-md-2">
-                <select class="form-select" id="searchType">
+                <select class="form-select form-select-lg" id="searchType">
                     <option value="name">Name</option>
                     <option value="nic">NIC</option>
                 </select>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-primary w-100" onclick="searchCustomer()">Search</button>
+                <button class="btn btn-light btn-lg w-100" onclick="searchCustomer()">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </div>
             <div class="col-md-2">
-                <a href="customerPage.jsp" class="btn btn-success w-100">Create Customer</a>
+                <a href="customerPage.jsp" class="btn btn-light btn-lg w-100">
+                    <i class="bi bi-person-plus"></i> New
+                </a>
             </div>
         </div>
+    </div>
 
-        <div id="customerDetails" style="display: none;">
-            <h5>Customer Details</h5>
-            <ul class="list-group">
-                <li class="list-group-item">Name: <span id="customerName"></span></li>
-                <li class="list-group-item">Email: <span id="customerEmail"></span></li>
-                <li class="list-group-item">Phone: <span id="customerPhone"></span></li>
-                <li class="list-group-item">NIC: <span id="customerNIC"></span></li>
-                <li class="list-group-item">Address: <span id="customerAddress"></span></li>
-                <li class="list-group-item">Status: <span id="customerStatus"></span></li>
-            </ul>
+    <!-- Customer Details Card -->
+    <div class="card mb-4" id="customerDetails" style="display: none;">
+        <div class="card-body">
+            <h5 class="card-title mb-4">Customer Details</h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Name:</strong> <span id="customerName"></span></p>
+                    <p class="mb-1"><strong>Email:</strong> <span id="customerEmail"></span></p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Phone:</strong> <span id="customerPhone"></span></p>
+                    <p class="mb-1"><strong>NIC:</strong> <span id="customerNIC"></span></p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Address:</strong> <span id="customerAddress"></span></p>
+                    <p class="mb-1"><strong>Status:</strong> <span id="customerStatus"></span></p>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <!-- Item Entry -->
-        <div class="col-md-6 mb-4">
-            <div class="card p-4">
-                <h4>Add Item</h4>
-                <div class="mb-3 position-relative">
-                    <label>Search Item</label>
-                    <input type="text" class="form-control" id="itemSearch">
-                    <div class="autocomplete-results" id="autocompleteResults" style="display: none;"></div>
-                </div>
-
-                <div id="itemDetails" style="display: none;">
-                    <p><strong>Code:</strong> <span id="itemCode"></span></p>
-                    <p><strong>Name:</strong> <span id="itemName"></span></p>
-                    <p><strong>Price:</strong> $<span id="itemPrice"></span></p>
-                    <p><strong>Stock:</strong> <span id="itemStock"></span></p>
-
-                    <div class="mb-3">
-                        <label>Quantity</label>
-                        <input type="number" class="form-control" id="itemQuantity" min="1" value="1"
-                               onchange="calculateItemTotal()">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Add Item</h5>
+                    <div class="mb-3 position-relative">
+                        <input type="text" class="form-control form-control-lg" id="itemSearch" placeholder="Search item by name or code">
+                        <div class="autocomplete-results" id="autocompleteResults" style="display: none;"></div>
                     </div>
-
-                    <div class="mb-3">
-                        <label>Total</label>
-                        <input type="text" class="form-control" id="itemTotal" readonly>
+                    <div id="itemDetails" style="display: none;">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Code: <span id="itemCode"></span></label>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Name: <span id="itemName"></span></label>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Price: <span id="itemPrice"></span></label>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Stock: <span id="itemStock"></span></label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="itemQuantity" min="1" value="1" onchange="calculateItemTotal()">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Total</label>
+                            <input type="text" class="form-control" id="itemTotal" readonly>
+                        </div>
+                        <button class="btn btn-primary w-100" id="addToBillBtn" onclick="addToBill()" disabled>
+                            <i class="bi bi-cart-plus"></i> Add to Bill
+                        </button>
                     </div>
-
-                    <button class="btn btn-success w-100" id="addToBillBtn" onclick="addToBill()" disabled>Add to Bill
-                    </button>
-
                 </div>
             </div>
         </div>
 
         <!-- Bill Summary -->
-        <div class="col-md-6 mb-4">
-            <div class="card p-4">
-                <h4>Current Bill</h4>
-                <table class="table table-bordered">
-                    <thead class="table-light">
-                    <tr>
-                        <th>Code</th>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                    </thead>
-                    <tbody id="billItems"></tbody>
-                </table>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Current Bill</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="billItems"></tbody>
+                        </table>
+                    </div>
 
-                <div class="mb-3">
-                    <p>Subtotal: <strong id="subtotal">$0.00</strong></p>
-                    <p>Discount: <strong id="discount">$0.00</strong></p>
-                    <p>Total: <strong id="total">$0.00</strong></p>
-                </div>
-                <div class="mb-3">
-                    <label>Amount Given</label>
-                    <input type="number" class="form-control" id="amountGiven" placeholder="Amount given by customer"
-                           oninput="updateBalance()">
-                </div>
-                <div class="mb-3">
-                    <label>Balance</label>
-                    <input type="text" class="form-control" id="balance" readonly>
-                </div>
-                <div class="mb-3">
-                    <label>Payment Method</label>
-                    <select class="form-select" id="paymentMethod">
-                        <option value="cash">Cash</option>
-                        <option value="card">Card</option>
-                        <option value="bank_transfer">Bank Transfer</option>
-                    </select>
-                </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <p class="mb-2">Subtotal: <strong id="subtotal">Rs 0.00</strong></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-2">Discount: <strong id="discount">Rs 0.00</strong></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-2">Total: <strong id="total">Rs 0.00</strong></p>
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label>Notes</label>
-                    <input type="text" class="form-control" id="notes" placeholder="Optional notes...">
-                </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Amount Given</label>
+                                <input type="number" class="form-control" id="amountGiven" oninput="updateBalance()">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Balance</label>
+                                <input type="text" class="form-control" id="balance" readonly>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" onclick="confirmBill()">Confirm Bill</button>
-                    <button class="btn btn-danger" onclick="resetBill()">Reset</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-select" id="paymentMethod">
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                    <option value="bank_transfer">Bank Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Notes</label>
+                                <input type="text" class="form-control" id="notes" placeholder="Optional notes...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-primary flex-grow-1" onclick="confirmBill()">
+                            <i class="bi bi-check2-circle"></i> Confirm Bill
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="resetBill()">
+                            <i class="bi bi-x-circle"></i> Reset
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS and script placeholders -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Reuse the logic from your previous JavaScript code
