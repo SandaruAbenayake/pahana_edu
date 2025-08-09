@@ -51,6 +51,17 @@ public class BillDAO {
                         for (BillItem item : bill.getBillItems()) {
                             item.setBillId(billId);
                             createBillItem(item, conn);
+
+                            // Adjust stock quantity in the item/product table
+                            String updateStockSql = "UPDATE products SET quantity_in_stock = quantity_in_stock - ? WHERE product_id = ?";
+                            try (PreparedStatement updateStockStmt = conn.prepareStatement(updateStockSql)) {
+                                updateStockStmt.setInt(1, item.getQuantity());  // quantity sold
+                                updateStockStmt.setInt(2, item.getProductId()); // product/item id
+                                int updatedRows = updateStockStmt.executeUpdate();
+                                if (updatedRows == 0) {
+                                    throw new SQLException("Failed to update stock for item_id: " + item.getProductId());
+                                }
+                            }
                         }
                     }
                 }

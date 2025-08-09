@@ -104,7 +104,7 @@
 
         <h3>Billing & Purchase</h3>
         <a href="billingPanel.jsp" class="btn"><span>Calculate Bill</span></a>
-        <a href="viewPurchases.jsp" class="btn"><span>View All Purchase Details</span></a>
+        <a href="billlist.jsp" class="btn"><span>View All Purchase Details</span></a>
 
         <h3>User Management</h3>
         <a href="userPage.jsp" class="btn"><span>User Management</span></a>
