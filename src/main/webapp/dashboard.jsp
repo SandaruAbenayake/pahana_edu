@@ -110,7 +110,7 @@
         <a href="userPage.jsp" class="btn"><span>User Management</span></a>
 
         <h3>Others</h3>
-        <a href="help.jsp" class="btn"><span>Help</span></a>
+        <a href="helpPage.jsp " class="btn"><span>Help</span></a>
         <a href="login.jsp" class="btn"><span>Logout</span></a>
     </div>
 </div>
