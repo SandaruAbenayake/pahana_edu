@@ -7,11 +7,12 @@
     List<User> userList = UserDAO.getAllUsers();
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
     <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,103 +21,180 @@
             padding: 0;
         }
 
+        .header {
+            background: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #005cbf;
+            margin: 0;
+        }
+
         .container {
-            display: flex;
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 1400px;
+            margin: 20px auto;
+        }
+
+        .card {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .left, .right {
-            padding: 40px 30px;
-        }
-
-        .left {
-            flex: 1;
-            border-right: 1px solid #e0e0e0;
-        }
-
-        .right {
-            flex: 2;
-        }
-
-        h2 {
-            color: #005cbf;
-            margin-bottom: 24px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        form input, form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-
-        form button {
-            background: #007bff;
-            color: #fff;
             border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.2s;
+            margin-bottom: 20px;
         }
 
-        form button:hover {
-            background: #0056b3;
+        .form-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+        .form-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
-        th, td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: left;
+        .form-control, .form-select {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
         }
 
-        th {
-            background: #f0f4fa;
-            color: #333;
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
         }
 
-        tr:last-child td {
-            border-bottom: none;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
-        .msg {
-            margin-bottom: 18px;
-            color: #d9534f;
+        .btn-primary {
+            background: #0d6efd;
+            border: none;
         }
 
-        .icon {
-            cursor: pointer;
-            font-size: 18px;
-            margin-right: 10px;
-            transition: color 0.2s;
+        .btn-primary:hover {
+            background: #0b5ed7;
         }
 
-        .icon.edit:hover {
-            color: #007bff;
+        .btn-outline-primary {
+            border-color: #0d6efd;
+            color: #0d6efd;
         }
 
-        .icon.delete:hover {
-            color: #d9534f;
+        .btn-outline-primary:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .btn-success {
+            background: #198754;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: #157347;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background: #ffca2c;
+            color: #000;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #bb2d3b;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .user-form-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .alert-success {
+            background-color: #d1edff;
+            color: #0c5460;
+            border-left: 4px solid #0dcaf0;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #0d6efd;
+        }
+
+        .stats-label {
+            color: #6c757d;
+            font-size: 0.9rem;
         }
     </style>
     <script>
@@ -126,8 +204,9 @@
             document.getElementById('password').value = password;
             document.getElementById('role').value = role;
             document.getElementById('userId').value = id;
-            document.getElementById('formTitle').innerText = 'Edit User';
-            document.getElementById('submitBtn').innerText = 'Update User';
+            document.getElementById('formTitle').innerHTML = '<i class="bi bi-pencil-square"></i> Edit User';
+            document.getElementById('submitBtn').innerHTML = '<i class="bi bi-check-circle"></i> Update User';
+            document.getElementById('submitBtn').className = 'btn btn-success';
             document.getElementById('cancelBtn').style.display = 'inline-block';
             document.getElementById('userForm').action = 'updateUser';
         };
@@ -146,111 +225,233 @@
             document.getElementById('password').value = '';
             document.getElementById('role').value = 'user';
             document.getElementById('userId').value = '';
-            document.getElementById('formTitle').innerText = 'Create User';
-            document.getElementById('submitBtn').innerText = 'Create User';
+            document.getElementById('formTitle').innerHTML = '<i class="bi bi-person-plus"></i> Create New User';
+            document.getElementById('submitBtn').innerHTML = '<i class="bi bi-plus-circle"></i> Create User';
+            document.getElementById('submitBtn').className = 'btn btn-primary';
             document.getElementById('cancelBtn').style.display = 'none';
             document.getElementById('userForm').action = 'createUser';
         };
 
         window.deleteUser = function (id) {
-            if (confirm('Are you sure you want to delete this user?')) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
                 window.location.href = 'deleteUser?id=' + id;
             }
         };
     </script>
 </head>
 <body>
-<div class="container">
-    <div class="left">
-        <h2 id="formTitle">Create User</h2>
-        <form action="createUser" method="post" id="userForm">
-            <input type="hidden" name="id" id="userId"/>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required/>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required/>
-
-            <label for="role">Role</label>
-            <select id="role" name="role" required>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <button type="submit" id="submitBtn">Create User</button>
-            <button type="button" id="cancelBtn" style="display:none; margin-left:10px; background:#6c757d;"
-                    onclick="cancelEdit()">Cancel
-            </button>
-        </form>
-        <%-- Show success message from session if present --%>
+<div class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h2><i class="bi bi-people"></i> User Management</h2>
         <%
-            String successMsg = null;
-            if (session.getAttribute("success") != null) {
-                successMsg = (String) session.getAttribute("success");
-                session.removeAttribute("success");
+            String role = (String) session.getAttribute("role");
+            String homePage = "login.jsp";
+            if ("admin".equalsIgnoreCase(role)) {
+                homePage = "dashboard.jsp";
+            } else if ("user".equalsIgnoreCase(role)) {
+                homePage = "userDashboard.jsp";
             }
         %>
-        <% if (successMsg != null) { %>
-        <div class="msg" style="color:#28a745;"><%= successMsg %>
-        </div>
-        <% } %>
-        <%-- Placeholder for error/success messages --%>
-        <div class="msg">
-            <% if (request.getAttribute("error") != null) { %>
-            <%= request.getAttribute("error") %>
-            <% } %>
-        </div>
-    </div>
-    <div class="right">
-        <h2>User List</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% if (userList != null && !userList.isEmpty()) {
-                for (User u : userList) {
-                    // Escape values for HTML attributes
-                    String escUsername = u.getUsername() == null ? "" : u.getUsername().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
-                    String escPassword = u.getPassword() == null ? "" : u.getPassword().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
-                    String escRole = u.getRole() == null ? "" : u.getRole().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
-            %>
-            <tr>
-                <td><%= u.getId() %>
-                </td>
-                <td><%= escUsername %>
-                </td>
-                <td><%= escRole %>
-                </td>
-                <td>
-            <span class="icon edit" title="Edit"
-                  data-id="<%= u.getId() %>"
-                  data-username="<%= escUsername %>"
-                  data-password="<%= escPassword %>"
-                  data-role="<%= escRole %>"
-                  onclick="editUserFromAttr(this)">✏️</span>
-                    <span class="icon delete" title="Delete" onclick="deleteUser(<%= u.getId() %>)">🗑️</span>
-                </td>
-            </tr>
-            <% }
-            } else { %>
-            <tr>
-                <td colspan="4">No users found.</td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
-        <!-- Back to Home Button -->
-        <div style="margin-top: 20px;">
-            <a href="dashboard.jsp" class="btn btn-secondary">← Back to Home</a>
-        </div>
-
+        <a href="<%= homePage %>" class="btn btn-outline-primary">
+            <i class="bi bi-house"></i> Back to Dashboard
+        </a>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <!-- User Form Section -->
+        <div class="col-md-4">
+            <div class="form-section">
+                <div class="form-title" id="formTitle">
+                    <i class="bi bi-person-plus"></i> Create New User
+                </div>
+                <div class="user-form-card">
+                    <form action="createUser" method="post" id="userForm">
+                        <input type="hidden" name="id" id="userId"/>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="bi bi-person"></i> Username
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" required
+                                   placeholder="Enter username">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-lock"></i> Password
+                            </label>
+                            <input type="password" class="form-control" id="password" name="password" required
+                                   placeholder="Enter password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label">
+                                <i class="bi bi-shield-check"></i> Role
+                            </label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1" id="submitBtn">
+                                <i class="bi bi-plus-circle"></i> Create User
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="cancelBtn"
+                                    style="display:none;" onclick="cancelEdit()">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">
+                        <i class="bi bi-graph-up"></i> User Statistics
+                    </h6>
+                    <div class="stats-card">
+                        <div class="stats-number"><%= userList != null ? userList.size() : 0 %></div>
+                        <div class="stats-label">Total Users</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="stats-card">
+                                <div class="stats-number text-success">
+                                    <%= userList != null ? userList.stream().mapToInt(u -> "admin".equals(u.getRole()) ? 1 : 0).sum() : 0 %>
+                                </div>
+                                <div class="stats-label">Admins</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stats-card">
+                                <div class="stats-number text-info">
+                                    <%= userList != null ? userList.stream().mapToInt(u -> "user".equals(u.getRole()) ? 1 : 0).sum() : 0 %>
+                                </div>
+                                <div class="stats-label">Users</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <%-- Show success message from session if present --%>
+            <%
+                String successMsg = null;
+                if (session.getAttribute("success") != null) {
+                    successMsg = (String) session.getAttribute("success");
+                    session.removeAttribute("success");
+                }
+            %>
+            <% if (successMsg != null) { %>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <%= successMsg %>
+            </div>
+            <% } %>
+
+            <% if (request.getAttribute("error") != null) { %>
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <%= request.getAttribute("error") %>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- User List Section -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-list-check"></i> User List
+                        </h5>
+                        <button class="btn btn-outline-primary btn-sm" onclick="window.location.reload()">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th><i class="bi bi-hash"></i> ID</th>
+                                <th><i class="bi bi-person"></i> Username</th>
+                                <th><i class="bi bi-shield-check"></i> Role</th>
+                                <th><i class="bi bi-gear"></i> Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% if (userList != null && !userList.isEmpty()) {
+                                for (User u : userList) {
+                                    // Escape values for HTML attributes
+                                    String escUsername = u.getUsername() == null ? "" : u.getUsername().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
+                                    String escPassword = u.getPassword() == null ? "" : u.getPassword().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
+                                    String escRole = u.getRole() == null ? "" : u.getRole().replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&#39;").replace("<", "&lt;").replace(">", "&gt;");
+                            %>
+                            <tr>
+                                <td><span class="badge bg-secondary">#<%= u.getId() %></span></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle me-2 text-primary"></i>
+                                        <%= escUsername %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <% if ("admin".equals(escRole)) { %>
+                                    <span class="badge bg-success">
+                                            <i class="bi bi-shield-check"></i> Admin
+                                        </span>
+                                    <% } else { %>
+                                    <span class="badge bg-info">
+                                            <i class="bi bi-person"></i> User
+                                        </span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-warning btn-sm" title="Edit User"
+                                                data-id="<%= u.getId() %>"
+                                                data-username="<%= escUsername %>"
+                                                data-password="<%= escPassword %>"
+                                                data-role="<%= escRole %>"
+                                                onclick="editUserFromAttr(this)">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" title="Delete User"
+                                                onclick="deleteUser(<%= u.getId() %>)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }
+                            } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    <i class="bi bi-people fs-1 d-block mb-2"></i>
+                                    No users found.
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
