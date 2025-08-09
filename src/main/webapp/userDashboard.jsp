@@ -101,7 +101,7 @@
         <a href="itemPage.jsp" class="btn-custom">Item Management</a>
 
         <!-- Report Section -->
-        <h3>Report Section</h3>
+        <h3>Oder Section</h3>
         <a href="billingPanel.jsp" class="btn-custom">Calculate Bill</a>
 
         <!-- Others -->
