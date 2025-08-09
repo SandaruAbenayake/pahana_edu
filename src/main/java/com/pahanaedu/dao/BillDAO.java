@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BillDAO {
@@ -35,7 +36,7 @@ public class BillDAO {
             stmt.setString(7, bill.getPaymentMethod());
             stmt.setString(8, bill.getNotes());
             stmt.setString(9, bill.getStatus() != null ? bill.getStatus() : "pending");
-            stmt.setTimestamp(10, bill.getBillDate() != null ? Timestamp.valueOf(bill.getBillDate()) : Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setInt(11, bill.getCreatedBy());
 
 
@@ -111,7 +112,7 @@ public class BillDAO {
                 bill.setFinalAmount(rs.getBigDecimal("final_amount"));
                 bill.setAmountPaid(rs.getBigDecimal("amount_paid"));
                 bill.setBalanceReturned(rs.getBigDecimal("balance_returned"));
-                bill.setBillDate(rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null);
+                bill.setBillDate(rs.getString("bill_date") != null ? rs.getString("bill_date") : null);
                 bill.setStatus(rs.getString("status"));
                 bill.setPaymentMethod(rs.getString("payment_method"));
                 bill.setNotes(rs.getString("notes"));
@@ -168,28 +169,63 @@ public class BillDAO {
         List<Bill> bills = new ArrayList<>();
         try {
             Connection conn = DBConnection.getInstance().getConnection();
-            String sql = "SELECT * FROM bills ORDER BY bill_date DESC";
+            String sql = "SELECT \n" +
+                    "    B.bill_id,\n" +
+                    "    B.bill_date,\n" +
+                    "    B.final_amount,\n" +
+                    "    B.discount_amount,\n" +
+                    "    B.payment_method,\n" +
+                    "    B.balance_returned,\n" +
+                    "    B.amount_paid,\n" +
+                    "    B.bill_date,\n" +
+                    "    C.full_name AS customer_name,\n" +
+                    "    C.customer_id,\n" +
+                    "    U.username AS cashiers,\n" +
+                    "    JSON_ARRAYAGG(\n" +
+                    "        JSON_OBJECT(\n" +
+                    "            'billItemId', BI.bill_item_id,\n" +
+                    "            'productId', BI.product_id,\n" +
+                    "            'productCode', BI.product_code,\n" +
+                    "            'productName', BI.product_name,\n" +
+                    "            'quantity', BI.quantity,\n" +
+                    "            'unitPrice', BI.unit_price,\n" +
+                    "            'totalPrice', BI.total_price,\n" +
+                    "            'discountPercent', BI.discount_percent,\n" +
+                    "            'discountAmount', BI.discount_amount,\n" +
+                    "            'finalPrice', BI.final_price\n" +
+                    "        )\n" +
+                    "    ) AS bill_items\n" +
+                    "FROM bills B\n" +
+                    "JOIN customers C ON B.customer_id = C.customer_id\n" +
+                    "JOIN users U ON B.created_by = U.id\n" +
+                    "LEFT JOIN bill_items BI ON B.bill_id = BI.bill_id\n" +
+                    "GROUP BY B.bill_id, B.bill_date, B.final_amount, B.discount_amount, B.payment_method,\n" +
+                    "         B.balance_returned, B.amount_paid, C.full_name, C.customer_id;\n";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
             while (rs.next()) {
                 Bill bill = new Bill();
                 bill.setBillId(rs.getInt("bill_id"));
-                bill.setCustomerId(rs.getInt("customer_id"));
+                bill.setTotalAmount(rs.getBigDecimal("final_amount"));
                 bill.setCustomerName(rs.getString("customer_name"));
-                bill.setTotalAmount(rs.getBigDecimal("total_amount"));
                 bill.setDiscountAmount(rs.getBigDecimal("discount_amount"));
                 bill.setFinalAmount(rs.getBigDecimal("final_amount"));
                 bill.setAmountPaid(rs.getBigDecimal("amount_paid"));
                 bill.setBalanceReturned(rs.getBigDecimal("balance_returned"));
-                bill.setBillDate(rs.getTimestamp("bill_date") != null ? rs.getTimestamp("bill_date").toLocalDateTime() : null);
-                bill.setStatus(rs.getString("status"));
                 bill.setPaymentMethod(rs.getString("payment_method"));
-                bill.setNotes(rs.getString("notes"));
-                bill.setCreatedBy(rs.getInt("created_by"));
-
-                bill.setPaymentMethod(rs.getString("payment_method"));
-                bill.setNotes(rs.getString("notes"));
+                bill.setBillDate(rs.getString("bill_date") != null ? rs.getString("bill_date") : null);
+                // Parse bill_items JSON string
+                String billItemsJson = rs.getString("bill_items");
+                List<BillItem> billItems = new ArrayList<>();
+                if (billItemsJson != null && !billItemsJson.equals("[null]")) {
+                    try {
+                        billItems = Arrays.asList(mapper.readValue(billItemsJson, BillItem[].class));
+                    } catch (Exception e) {
+                        System.err.println("Failed to parse bill items JSON: " + e.getMessage());
+                    }
+                }
+                bill.setBillItems(billItems);
                 bills.add(bill);
             }
             rs.close();
@@ -245,4 +281,10 @@ public class BillDAO {
             return false;
         }
     }
-} 
+
+    public static List<Bill> getBillsByCustomerId(int customerId) {
+        return null;
+    }
+
+
+}
