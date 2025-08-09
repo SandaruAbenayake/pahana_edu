@@ -1,7 +1,6 @@
 package com.pahanaedu.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class Bill {
@@ -11,13 +10,14 @@ public class Bill {
     private BigDecimal totalAmount;
     private BigDecimal discountAmount;
     private BigDecimal finalAmount;
-    private LocalDateTime billDate;
+    private String billDate;
     private String status; // pending, completed, cancelled
     private String paymentMethod;
     private String notes;
     private List<BillItem> billItems;
     private BigDecimal amountPaid;
     private BigDecimal balanceReturned;
+    private String cashier;
     private int createdBy;
 
     // Default constructor
@@ -27,7 +27,7 @@ public class Bill {
     // Constructor with basic fields
     public Bill(int billId, int customerId, String customerName, BigDecimal totalAmount,
                 BigDecimal discountAmount, BigDecimal finalAmount, BigDecimal amountPaid,
-                BigDecimal balanceReturned, LocalDateTime billDate, String status, int createdBy) {
+                BigDecimal balanceReturned, String billDate, String status, int createdBy) {
         this.billId = billId;
         this.customerId = customerId;
         this.customerName = customerName;
@@ -91,11 +91,11 @@ public class Bill {
         this.finalAmount = finalAmount;
     }
 
-    public LocalDateTime getBillDate() {
+    public String getBillDate() {
         return billDate;
     }
 
-    public void setBillDate(LocalDateTime billDate) {
+    public void setBillDate(String billDate) {
         this.billDate = billDate;
     }
 
@@ -154,4 +154,32 @@ public class Bill {
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
-} 
+
+    public String getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(String cashier) {
+        this.cashier = cashier;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "billId=" + billId +
+                ", customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", discountAmount=" + discountAmount +
+                ", finalAmount=" + finalAmount +
+                ", billDate=" + billDate +
+                ", status='" + status + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", notes='" + notes + '\'' +
+                ", billItems=" + billItems +
+                ", amountPaid=" + amountPaid +
+                ", balanceReturned=" + balanceReturned +
+                ", createdBy=" + createdBy +
+                '}';
+    }
+}
