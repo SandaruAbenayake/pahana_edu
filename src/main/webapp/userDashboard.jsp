@@ -76,7 +76,7 @@
             <div class="menu-buttons">
                 <a href="customerPage.jsp" class="btn-menu customer">
                     <i class="bi bi-person-plus-fill"></i>
-                    Manage Customer Database
+                    Manage Customers
                 </a>
             </div>
         </div>
