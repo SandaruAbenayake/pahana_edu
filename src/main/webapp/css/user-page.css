@@ -30,29 +30,27 @@ body {
     margin-bottom: 20px;
 }
 
-.search-section {
+.form-section {
     background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
     padding: 25px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
 
-.search-title {
+.form-title {
     color: white;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 15px;
 }
 
-.form-control,
-.form-select {
+.form-control, .form-select {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 0.75rem 1rem;
 }
 
-.form-control:focus,
-.form-select:focus {
+.form-control:focus, .form-select:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -126,7 +124,7 @@ body {
     vertical-align: middle;
 }
 
-.customer-form-card {
+.user-form-card {
     background: #fff;
     border-radius: 10px;
     padding: 1.5rem;
@@ -159,6 +157,11 @@ body {
     font-size: 0.875rem;
 }
 
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
 .stats-card {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 8px;
@@ -176,33 +179,4 @@ body {
 .stats-label {
     color: #6c757d;
     font-size: 0.9rem;
-}
-
-.highlight {
-    background-color: #fff3cd;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-weight: 600;
-}
-
-.status-badge {
-    font-size: 0.8rem;
-}
-
-.customer-row:hover {
-    background-color: #f8f9fa;
-}
-
-.form-section {
-    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-    padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.form-title {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 15px;
 }
