@@ -106,7 +106,7 @@
 <div class="welcome-banner">
     <div class="welcome-text">
         <i class="bi bi-star-fill me-2"></i>
-        Welcome to Pahana EDU Management System - Your Complete Business Solution
+        Welcome to Pahana EDU Management System - Sandaru Business Solution
         <i class="bi bi-star-fill ms-2"></i>
     </div>
 </div>
