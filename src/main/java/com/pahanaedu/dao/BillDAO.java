@@ -247,22 +247,6 @@ public class BillDAO {
         return bills;
     }
 
-    // Update bill status
-    public static boolean updateBillStatus(int billId, String status) {
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            String sql = "UPDATE bills SET status = ? WHERE bill_id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, status);
-            stmt.setInt(2, billId);
-            int rows = stmt.executeUpdate();
-            stmt.close();
-            return rows > 0;
-        } catch (Exception e) {
-            System.err.println("Failed to update bill status: " + e.getMessage());
-            return false;
-        }
-    }
 
     // Delete bill
     public static boolean deleteBill(int billId) {
