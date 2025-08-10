@@ -1,8 +1,11 @@
 package com.pahanaedu.dao;
 
+import com.pahanaedu.db.DBConnection;
 import com.pahanaedu.model.Customer;
 import org.junit.jupiter.api.*;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +21,14 @@ class CustomerDAOTest {
     void setUp() {
         // Optional: initialize anything needed before each test
     }
+
+    @BeforeAll
+    static void setUpBeforeAll()  throws SQLException  {
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            conn.createStatement().execute("DELETE FROM customers");
+        }
+    }
+
 
     @Test
     @Order(1)
@@ -60,7 +71,19 @@ class CustomerDAOTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
+    void searchCustomersByName() {
+        List<Customer> results = CustomerDAO.searchCustomersByName("Test");
+        assertNotNull(results);
+        assertFalse(results.isEmpty(), "Should find at least one customer with 'Test' in name");
+
+        for (Customer c : results) {
+            assertTrue(c.getFullName().toLowerCase().contains("test"));
+        }
+    }
+
+    @Test
+    @Order(6)
     void updateCustomer() {
         List<Customer> customers = CustomerDAO.getAllCustomers();
         assertFalse(customers.isEmpty());
@@ -74,17 +97,7 @@ class CustomerDAOTest {
         assertEquals("Updated Name", updatedCustomer.getFullName());
     }
 
-    @Test
-    @Order(5)
-    void searchCustomersByName() {
-        List<Customer> results = CustomerDAO.searchCustomersByName("Test");
-        assertNotNull(results);
-        assertFalse(results.isEmpty(), "Should find at least one customer with 'Test' in name");
 
-        for (Customer c : results) {
-            assertTrue(c.getFullName().toLowerCase().contains("test"));
-        }
-    }
 
     @Test
     @Order(6)

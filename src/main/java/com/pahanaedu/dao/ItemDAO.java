@@ -60,7 +60,7 @@ public class ItemDAO {
         Item item = null;
         try {
             Connection conn = DBConnection.getInstance().getConnection();
-            String sql = "SELECT * FROM items WHERE product_id = ?";
+            String sql = "SELECT * FROM products WHERE product_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, productId);
             ResultSet rs = stmt.executeQuery();
